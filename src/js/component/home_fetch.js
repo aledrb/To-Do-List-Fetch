@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 export function Home() {
 	const [todos, setTodos] = useState([]);
 	const [task, setTask] = useState({ label: "", done: false });
@@ -8,6 +8,29 @@ export function Home() {
 			setTodos(filterList);
 		}
 	}
+	const crearTodo = () => {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/alejandra", {
+			method: "POST",
+			body: [],
+			headers: {
+				"Content-Type": "application/json"
+			}
+		});
+	};
+	const listarTodo = () => {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/alejandra", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(newRes => newRes.json())
+			.then(response => setTodos(response));
+	};
+	useEffect(() => {
+		crearTodo();
+		listarTodo();
+	}, []);
 	return (
 		<div className="text-center mt-5 container">
 			<h1>TODO LIST WITH REACT</h1>
