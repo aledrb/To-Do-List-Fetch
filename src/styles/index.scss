@@ -1,13 +1,36 @@
 @import "~bootstrap/scss/bootstrap.scss";
 
-/* 
+body{
+    background-color: #5db8c1;
+}
 
-    You can write your own styles here...
+li{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+ul{
     
-    
-    ...Or you can use the import command to include 
-    other sylesheets into your bunde as well, e.j:
-    
-    import 'relative/path/to/stylesheet.scss';
+     margin-top: 10px;
+}
 
-*/
+h1 {
+    font-size: 50px;
+    color: white;
+}
+.tareas {
+    background-color: powderblue;
+}
+
+ul li {
+    color: white;
+    border-color: #5db8c1;
+    font-size: 20px;
+}
+
+.fa, .fas  {
+    color: #fbfb38;
+}
+
+.itemsLeft {
+    color: white;
+}

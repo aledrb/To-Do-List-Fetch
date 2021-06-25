@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 export function Home() {
 	const [todos, setTodos] = useState([]);
-	const [task, setTask] = useState("");
+	const [task, setTask] = useState({ label: "", done: false });
 	function deleteItems(index) {
 		if (index > -1) {
 			const filterList = todos.filter(item => item !== todos[index]);
@@ -14,20 +14,22 @@ export function Home() {
 			<form
 				onSubmit={evento => {
 					evento.preventDefault();
-					if (task.length > 0) setTodos([...todos, task]);
-					setTask("");
+					if (task.label.length > 0) setTodos([...todos, task]);
+					setTask({ label: "", done: false });
 				}}>
 				<input
 					className="form-control form-control-lg"
 					placeholder="Ingrese su tarea"
-					onChange={evento => setTask(evento.target.value)}
-					value={task}></input>
+					onChange={evento =>
+						setTask({ label: evento.target.value, done: false })
+					}
+					value={task.label}></input>
 			</form>
 			<ul className="list-group">
 				{todos.map((item, index) => {
 					return (
 						<li className="list-group-item tareas" key={index}>
-							<span>{item}</span>
+							<span>{item.label}</span>
 							<button
 								className="btn btn-light float-right"
 								onClick={() => {
