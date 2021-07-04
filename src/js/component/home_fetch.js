@@ -1,36 +1,56 @@
 import React, { useState, useEffect } from "react";
 export function Home() {
 	const [todos, setTodos] = useState([]);
-	const [task, setTask] = useState({ label: "", done: false });
-	function deleteItems(index) {
-		if (index > -1) {
-			const filterList = todos.filter(item => item !== todos[index]);
-			setTodos(filterList);
-		}
-	}
+	const [task, setTask] = useState({});
+
 	const crearTodo = () => {
 		fetch("https://assets.breatheco.de/apis/fake/todos/user/alejandra", {
 			method: "POST",
 			body: [],
 			headers: {
 				"Content-Type": "application/json"
-			}
-		});
+            }
+        })
+			.then(resp => resp.json()) 
+
+			.then(data => setTodos(data))
+	
+
+			.catch(error => {
+				console.log(error);
+			});
 	};
+		
 	const listarTodo = () => {
 		fetch("https://assets.breatheco.de/apis/fake/todos/user/alejandra", {
-			method: "GET",
+			method: "PUT",
+			body: JSON.stringify(todos),
 			headers: {
 				"Content-Type": "application/json"
 			}
 		})
-			.then(newRes => newRes.json())
-			.then(response => setTodos(response));
-	};
+			.then(resp => resp.json()) 
+
+			.then(data => crearTodo())
+
+			.catch(error => {
+				
+				console.log(error);
+            });
+            
+	function deleteItems(index) {
+		if (index > -1) {
+			const filterList = todos.filter(item => item !== todos[index]);
+			setTodos(filterList);
+		}
+	}
+
 	useEffect(() => {
 		crearTodo();
-		listarTodo();
-	}, []);
+    }, []);
+    
+}
+
 	return (
 		<div className="text-center mt-5 container">
 			<h1>TODO LIST WITH REACT</h1>
@@ -67,4 +87,4 @@ export function Home() {
 			<div className="itemsLeft">{todos.length} Items left</div>
 		</div>
 	);
-}
+ }
