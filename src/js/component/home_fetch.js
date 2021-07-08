@@ -9,35 +9,35 @@ export function Home() {
 			body: [],
 			headers: {
 				"Content-Type": "application/json"
-            }
-        })
-			.then(resp => resp.json()) 
+			}
+		})
+			.then(resp => resp.json())
 
 			.then(data => setTodos(data))
-	
 
 			.catch(error => {
 				console.log(error);
 			});
 	};
-		
+
 	const listarTodo = () => {
 		fetch("https://assets.breatheco.de/apis/fake/todos/user/alejandra", {
-			method: "PUT",
-			body: JSON.stringify(todos),
+			method: "GET",
 			headers: {
 				"Content-Type": "application/json"
 			}
 		})
-			.then(resp => resp.json()) 
+			.then(resp => resp.json())
 
-			.then(data => crearTodo())
+			.then(data => {
+				setTodos(data);
+				console.log(todos);
+			})
 
 			.catch(error => {
-				
 				console.log(error);
-            });
-            
+			});
+	};
 	function deleteItems(index) {
 		if (index > -1) {
 			const filterList = todos.filter(item => item !== todos[index]);
@@ -46,10 +46,8 @@ export function Home() {
 	}
 
 	useEffect(() => {
-		crearTodo();
-    }, []);
-    
-}
+		listarTodo();
+	}, []);
 
 	return (
 		<div className="text-center mt-5 container">
@@ -87,4 +85,4 @@ export function Home() {
 			<div className="itemsLeft">{todos.length} Items left</div>
 		</div>
 	);
- }
+}
