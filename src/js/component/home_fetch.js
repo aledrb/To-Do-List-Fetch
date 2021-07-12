@@ -38,12 +38,52 @@ export function Home() {
 				console.log(error);
 			});
 	};
-	function deleteItems(index) {
+	const deleteItem = index => {
+		console.log("me estoy ejecutando");
+		let filterList = [];
 		if (index > -1) {
-			const filterList = todos.filter(item => item !== todos[index]);
+			filterList = todos.filter(item => item !== todos[index]);
 			setTodos(filterList);
 		}
-	}
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/alejandra", {
+			method: "PUT",
+			body: JSON.stringify(filterList),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(resp => resp.json())
+
+			.then(data => {
+				console.log(data);
+			})
+
+			.catch(error => {
+				console.log(error);
+			});
+	};
+
+	const updateTodo = evento => {
+		evento.preventDefault();
+		if (task.label.length > 0) setTodos([...todos, task]);
+		setTask({ label: "", done: false });
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/alejandra", {
+			method: "PUT",
+			body: JSON.stringify([...todos, task]),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(resp => resp.json())
+
+			.then(data => {
+				console.log(data);
+			})
+
+			.catch(error => {
+				console.log(error);
+			});
+	};
 
 	useEffect(() => {
 		listarTodo();
@@ -54,9 +94,7 @@ export function Home() {
 			<h1>TODO LIST WITH REACT</h1>
 			<form
 				onSubmit={evento => {
-					evento.preventDefault();
-					if (task.label.length > 0) setTodos([...todos, task]);
-					setTask({ label: "", done: false });
+					updateTodo(evento);
 				}}>
 				<input
 					className="form-control form-control-lg"
@@ -74,7 +112,7 @@ export function Home() {
 							<button
 								className="btn btn-light float-right"
 								onClick={() => {
-									deleteItems(index);
+									deleteItem(index);
 								}}>
 								<i className="fa fa-check"></i>
 							</button>
